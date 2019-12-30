@@ -83,10 +83,7 @@ public class Matriz {
             return;
         }
         if(j.getPOS().x==p.x && j.getPOS().y==p.y){
-            j.setPOS(new Point(1,1));
-            m[1][1]="J";
-            this.j.setVidas(j.getVidas()-1);
-            m[p.x][p.y]=VACIO;
+            muerte();
         }       
         //verificamos si lo que destruimos es un enemigo
         for(int i=0;i<8;i++){
@@ -134,16 +131,22 @@ public class Matriz {
             //this.actualizar(j);
             return false;
         }else if(m[p.x][p.y]=="M"){
-            m[j.getPOS().x][j.getPOS().y]=VACIO;
-            j.setPOS(new Point(1,1));
-            m[1][1]="J";
-            this.j.setVidas(j.getVidas()-1);
+            muerte();
             return false;
         }else if(m[p.x][p.y]=="O"){
             return true;
         }else{
             return false;
         }
+    }
+    public void muerte(){
+        this.j.setVidas(j.getVidas()-1);
+        if(j.getVidas()==0){
+            m[11][11]="GAME OVER papu...\nPresiona R para reiniciar";
+        }
+        m[j.getPOS().x][j.getPOS().y]=VACIO;
+        j.setPOS(new Point(1,1));
+        m[1][1]="J";
     }
     public void cambioDeNivel(){
         if(nivel==2){

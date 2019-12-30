@@ -71,10 +71,7 @@ public class Enemigo extends Elemento implements Runnable{
                 desplazamiento=desplazamiento*-1;
                 return true;
             }else if(m.m[p.x][p.y].equals("J")){
-                m.j.setPOS(new Point(1,1));
-                m.m[1][1]="J";
-                m.j.setVidas(m.j.getVidas()-1);
-                m.m[p.x][p.y]="O";
+                m.muerte();
             }
         }
         return false;

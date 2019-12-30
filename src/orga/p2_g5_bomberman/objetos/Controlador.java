@@ -123,6 +123,16 @@ public class Controlador implements KeyListener{
                 }                
             }
         }
+        if(ke.getKeyCode()==82){
+            m.nivel = 1;
+            m.m = new String[12][12];
+            m.bloques = new Bloque[12][12];
+            m.enemigos = new Enemigo[8];
+            m.j = new Jugador("Pompilio",3,0,0);
+            m.llenadoAutomaticoDeO();
+            m.configuracionBloquesNivel1();
+            m.configuaracionEnemigosNivel1();
+         }
         //m.actualizar();
         //actualizar matriz
     }

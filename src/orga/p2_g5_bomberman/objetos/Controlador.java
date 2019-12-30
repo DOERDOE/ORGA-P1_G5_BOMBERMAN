@@ -109,10 +109,19 @@ public class Controlador implements KeyListener{
             if(j.getBombasEspeciales()>0){
                 j.setBombasEspeciales(j.getBombasEspeciales()-1);
             }
-            m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
-            m.actualizar();
-            Thread nuevo = new Thread(m.b);
-            nuevo.start();
+            if(m.b==null){
+                m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
+                m.actualizar();
+                m.hiloBomba = new Thread(m.b);
+                m.hiloBomba.start();                
+            }else{
+                if(!m.b.isCargando()){
+                    m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
+                    m.actualizar();
+                    m.hiloBomba = new Thread(m.b);
+                    m.hiloBomba.start();                
+                }                
+            }
         }
         m.actualizar();
         //actualizar matriz

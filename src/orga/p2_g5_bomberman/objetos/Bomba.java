@@ -16,9 +16,10 @@ import java.util.logging.Logger;
 public class Bomba extends Elemento implements Runnable {
     Matriz m;
     boolean especial;
-    
+    private boolean cargando;
     public Bomba(Matriz m,Point p,boolean especial){
         super(p,"B");
+        this.cargando=true;
         this.m=m;
         this.especial=especial;
 //        detonar();
@@ -56,7 +57,7 @@ public class Bomba extends Elemento implements Runnable {
         p.x=p.y+2;
           
       }
-
+      this.cargando=false;
     }
     public void detonarNormal(){
           try {
@@ -135,4 +136,13 @@ public class Bomba extends Elemento implements Runnable {
         
         //verificar efectos
     }
+
+    public boolean isCargando() {
+        return cargando;
+    }
+
+    public void setCargando(boolean cargando) {
+        this.cargando = cargando;
+    }
+    
 }

@@ -17,7 +17,7 @@ public class TableroCaracteres extends javax.swing.JFrame  {
     public TableroCaracteres(Matriz m,Controlador c) {
         initComponents();
         this.txtMatriz.addKeyListener(c);
-        actualizar(m);
+        actualizar(m); 
         this.setVisible(true);
     }
     public void actualizar(Matriz m){
@@ -52,7 +52,6 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         lblVidas = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblBombasEspeciales = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblPuntuacion = new javax.swing.JLabel();
 
@@ -63,7 +62,7 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         txtMatriz.setRows(5);
         jScrollPane1.setViewportView(txtMatriz);
 
-        lblTitulo.setText("Nivel");
+        lblTitulo.setText("Nivel 1");
 
         jLabel1.setText("Nombre");
 
@@ -76,8 +75,6 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         jLabel5.setText("Bombas especiales");
 
         lblBombasEspeciales.setText("jLabel6");
-
-        jLabel7.setText("1");
 
         jLabel8.setText("Puntuación");
 
@@ -110,18 +107,14 @@ public class TableroCaracteres extends javax.swing.JFrame  {
                             .addComponent(lblNombre)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(169, 169, 169)
-                        .addComponent(lblTitulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)))
+                        .addComponent(lblTitulo)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTitulo)
-                    .addComponent(jLabel7))
+                .addComponent(lblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -155,7 +148,6 @@ public class TableroCaracteres extends javax.swing.JFrame  {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBombasEspeciales;

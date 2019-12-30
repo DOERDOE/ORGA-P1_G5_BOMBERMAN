@@ -18,11 +18,12 @@ public class Matriz {
     Jugador j;
     Bomba b;
     Fuego[][] explosion;
-    TableroCaracteres t;        
+    TableroCaracteres t;  
+    int nivel;
     public Matriz(){
+        nivel = 1;
         this.m = new String[12][12];
         this.bloques = new Bloque[12][12];
-  //      this.explosion = new Explosion[]
         this.j = new Jugador("Pompilio",3,0,0);
         llenadoAutomaticoDeO();
         configuracionBloquesNivel1();
@@ -51,21 +52,47 @@ public class Matriz {
         if(p.x<0 || p.x>11||p.y>11||p.y<0){           
             return;
         }
-        if(m[p.x][p.y]==null){
-            return;
-        }
         if(bloques[p.x][p.y]!=null){
-            bloques[p.x][p.y]=null;            
-            m[p.x][p.y]=VACIO;
+            if(bloques[p.x][p.y].isOcultaBonus()){
+                m[p.x][p.y]="Z";
+            }else if(bloques[p.x][p.y].isOcultaLlave()){
+                m[p.x][p.y]="L";
+            }else{
+                m[p.x][p.y]=VACIO;                
+            }
+            bloques[p.x][p.y]=null;
             j.setPunteo(j.getPunteo()+10);
             return;
         }
         if(j.getPOS().x==p.x && j.getPOS().y==p.y){
             j.setPOS(new Point(1,1));
             this.j.setVidas(j.getVidas()-1);
-        }        
+            m[p.x][p.y]=VACIO;
+        }       
+        if(m[p.x][p.y]==null){
+            return;
+        }
         this.actualizar(j);
     }
+    //true es dejar pasar, false no dejar pasar
+    public boolean alteracion(Point p){
+        if(m[p.x][p.y]=="Z"){
+            j.setBombasEspeciales(j.getBombasEspeciales()+3);
+            this.actualizar(j);
+            return true;
+        }else if(m[p.x][p.y]=="L"){
+            cambioDeNivel();
+            nivel++;
+            this.actualizar(j);
+            return true;
+        }else if(m[p.x][p.y]=="O"){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public void cambioDeNivel(){
+    };
     public void configuracionBloquesNivel1(){
         //bloques
         //fila x,y->
@@ -76,9 +103,11 @@ public class Matriz {
             bloques[i][11]=new Bloque(new Point(i,11));          
         }
         bloques[4][4]=new Bloque(new Point(4,4));
+        bloques[4][4].setOcultaBonus(true);
         bloques[4][5]=new Bloque(new Point(4,5));
         bloques[5][4]=new Bloque(new Point(5,4));
-        bloques[5][5]=new Bloque(new Point(5,5));        
+        bloques[5][5]=new Bloque(new Point(5,5));   
+        bloques[5][5].setOcultaLlave(true);
         for(int y=0;y<12;y++){
             for(int x=0;x<12;x++){
                 if(bloques[x][y]!=null)

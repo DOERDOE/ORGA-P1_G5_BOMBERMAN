@@ -27,9 +27,6 @@ public class Bomba extends Elemento implements Runnable {
     @Override
     public void run() {
       detonarNormal();      
-      if(especial){
-          detonarEspecial();
-      }
 //      m.verificarEfectos(this.getPOS(),"B",especial);
         //son las 4 a 8 areas de explosion que debemos alterar
       m.destruir(this.getPOS());
@@ -44,11 +41,22 @@ public class Bomba extends Elemento implements Runnable {
       m.destruir(p);
       p.y = p.y-2;
       m.destruir(p);
-    }
-    
-    
-    public void detonarEspecial(){
-        
+      //restaurado en su punto original
+      p.setLocation(this.getPOS());
+      if(especial){
+        p.x=p.x+2;
+        m.destruir(p);
+        p.x=p.x-4;
+        m.destruir(p);
+        p.x=p.x+2;
+        p.y=p.y+2;
+        m.destruir(p);
+        p.y=p.y-4;
+        m.destruir(p);
+        p.x=p.y+2;
+          
+      }
+
     }
     public void detonarNormal(){
           try {
@@ -66,19 +74,30 @@ public class Bomba extends Elemento implements Runnable {
                 }
             }
             if(especial){
-                detonarEspecial();
+                if(this.getPOS().y!=0){
+                    m.m[this.getPOS().x][this.getPOS().y-2]="F";
+                }
+                if(this.getPOS().y!=11){
+                    m.m[this.getPOS().x][this.getPOS().y+2]="F";
+                }
+                if(this.getPOS().x!=0){
+                    m.m[this.getPOS().x-2][this.getPOS().y]="F";
+                }
+                if(this.getPOS().x!=11){
+                    m.m[this.getPOS().x+2][this.getPOS().y]="F";
+                }                
             }
             if(this.getPOS().y!=0){
-                m.m[this.getPOS().x][this.getPOS().y-1]="f";
+                m.m[this.getPOS().x][this.getPOS().y-1]="F";
             }
             if(this.getPOS().y!=11){
-                m.m[this.getPOS().x][this.getPOS().y+1]="f";
+                m.m[this.getPOS().x][this.getPOS().y+1]="F";
             }
             if(this.getPOS().x!=0){
-                m.m[this.getPOS().x-1][this.getPOS().y]="f";
+                m.m[this.getPOS().x-1][this.getPOS().y]="F";
             }
             if(this.getPOS().x!=11){
-                m.m[this.getPOS().x+1][this.getPOS().y]="f";
+                m.m[this.getPOS().x+1][this.getPOS().y]="F";
             }
             m.m[this.getPOS().x][this.getPOS().y]="F";
             m.actualizar();
@@ -98,7 +117,21 @@ public class Bomba extends Elemento implements Runnable {
             if(this.getPOS().x!=11){
                 m.m[this.getPOS().x+1][this.getPOS().y]="O";
             }
-        m.m[this.getPOS().x][this.getPOS().y]="O";
+            if(especial){
+                if(this.getPOS().y!=0){
+                    m.m[this.getPOS().x][this.getPOS().y-2]="O";
+                }
+                if(this.getPOS().y!=11){
+                    m.m[this.getPOS().x][this.getPOS().y+2]="O";
+                }
+                if(this.getPOS().x!=0){
+                    m.m[this.getPOS().x-2][this.getPOS().y]="O";
+                }
+                if(this.getPOS().x!=11){
+                    m.m[this.getPOS().x+2][this.getPOS().y]="O";
+                }                
+            }
+            m.m[this.getPOS().x][this.getPOS().y]="O";
         
         //verificar efectos
     }

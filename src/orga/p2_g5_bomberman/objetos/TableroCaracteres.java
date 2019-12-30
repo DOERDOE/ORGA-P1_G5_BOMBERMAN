@@ -21,6 +21,7 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         this.setVisible(true);
     }
     public void actualizar(Matriz m){
+        this.lblTitulo.setText("Nivel "+m.nivel);
         this.lblNombre.setText(m.j.getNombre());
         this.lblBombasEspeciales.setText(m.j.getBombasEspeciales()+"");
         this.lblPuntuacion.setText(m.j.getPunteo()+"");
@@ -98,22 +99,21 @@ public class TableroCaracteres extends javax.swing.JFrame  {
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblBombasEspeciales)
-                                    .addComponent(lblVidas)
-                                    .addComponent(lblNombre))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblPuntuacion))))
+                                .addGap(53, 53, 53)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPuntuacion)
+                            .addComponent(lblBombasEspeciales)
+                            .addComponent(lblVidas)
+                            .addComponent(lblNombre)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(169, 169, 169)
                         .addComponent(lblTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,10 +137,10 @@ public class TableroCaracteres extends javax.swing.JFrame  {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(lblBombasEspeciales))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(lblPuntuacion))))
+                            .addComponent(lblPuntuacion)
+                            .addComponent(jLabel8))))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 

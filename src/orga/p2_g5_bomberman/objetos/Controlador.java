@@ -17,11 +17,13 @@ public class Controlador implements KeyListener{
     Matriz m;
     Jugador j;
     Bloque[][] bloques;
+    Point aux;
     
     public Controlador(Matriz m){
         this.m=m;
         this.j=m.j;
         this.bloques=m.bloques;
+        this.aux = new Point(0,0);
     }
 
     @Override
@@ -40,58 +42,75 @@ public class Controlador implements KeyListener{
             if(j.getPOS().y-1<0){
                 return;
             }
-            if(m.m[j.getPOS().x][j.getPOS().y-1]!="O"){
+            aux.x=j.getPOS().x;
+            aux.y=j.getPOS().y-1;
+            if(!m.alteracion(aux)){
                 //aqui tengo que ver con qu esta topando
-            }else{
+                return;
+            }
                 m.m[j.getPOS().x][j.getPOS().y]="O";            
                 j.getPOS().y=j.getPOS().y-1;
                 m.m[j.getPOS().x][j.getPOS().y]="J";
-            }
+            
         }
         //83 = S = Abajo
         if(ke.getKeyCode()==83){
             if(j.getPOS().y+1>11){
                 return;
             }
-            if(m.m[j.getPOS().x][j.getPOS().y+1]!="O"){
+            aux.x=j.getPOS().x;
+            aux.y=j.getPOS().y+1;
+            if(!m.alteracion(aux)){
                 //aqui tengo que ver con qu esta topando
-            }else{
+                return;
+            }
                 m.m[j.getPOS().x][j.getPOS().y]="O";
                 j.getPOS().y=j.getPOS().y+1;
                 m.m[j.getPOS().x][j.getPOS().y]="J";
-            }
+            
         }
         //65 = A = Izquierda
         if(ke.getKeyCode()==65){
             if(j.getPOS().x-1<0){
                 return;
             }
-            if(m.m[j.getPOS().x-1][j.getPOS().y]!="O"){
+            aux.x=j.getPOS().x-1;
+            aux.y=j.getPOS().y;
+            if(!m.alteracion(aux)){
                 //aqui tengo que ver con qu esta topando
-            }else{
+                return;
+            }
                 m.m[j.getPOS().x][j.getPOS().y]="O";
                 j.getPOS().x=j.getPOS().x-1;
                 m.m[j.getPOS().x][j.getPOS().y]="J";
-            }
+            
         }
         //68 = D = Derecha
         if(ke.getKeyCode()==68){
             if(j.getPOS().x+1>11){
                 return;
             }
-            if(m.m[j.getPOS().x+1][j.getPOS().y]!="O"){
+            aux.x=j.getPOS().x+1;
+            aux.y=j.getPOS().y;
+            if(!m.alteracion(aux)){
                 //aqui tengo que ver con qu esta topando
-            }else{
-                m.m[j.getPOS().x][j.getPOS().y]="O";
-                j.getPOS().x=j.getPOS().x+1;                
-                m.m[j.getPOS().x][j.getPOS().y]="J";
+                return;
             }
+            m.m[j.getPOS().x][j.getPOS().y]="O";
+            j.getPOS().x=j.getPOS().x+1;                
+            m.m[j.getPOS().x][j.getPOS().y]="J";
+            m.alteracion(j.getPOS());
+            
         }
         //66 = B = Bomba
         if(ke.getKeyCode()==66){
             int x = j.getPOS().x;
             int y = j.getPOS().y;
-            m.b=new Bomba(m,new Point(x,y),false);
+            if(j.getBombasEspeciales()>0){
+                j.setBombasEspeciales(j.getBombasEspeciales()-1);
+            }
+            m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
+            m.actualizar();
             Thread nuevo = new Thread(m.b);
             nuevo.start();
         }

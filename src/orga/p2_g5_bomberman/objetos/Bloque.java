@@ -17,7 +17,7 @@ public class Bloque extends Elemento{
     public Bloque(Point p){
         super(p,"H");
         this.ocultaBonus=false;
-        this.ocultaLlave=true;
+        this.ocultaLlave=false;
     }
 
     public boolean isOcultaBonus() {

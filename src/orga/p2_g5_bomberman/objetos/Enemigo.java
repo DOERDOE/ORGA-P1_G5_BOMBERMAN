@@ -56,7 +56,7 @@ public class Enemigo extends Elemento implements Runnable{
                 m.m[aux.x][aux.y]="M";                
                 super.setPOS(aux);
                 if(this.numeroDeEnemigo==1){
-                    m.actualizar();                    
+                  //  m.actualizar();                    
                 }
                 
             }
@@ -67,7 +67,7 @@ public class Enemigo extends Elemento implements Runnable{
     }
     public boolean verificarAfeccion(Point p){
         if(!m.m[p.x][p.y].equals("O")){
-            if(p.x<0 || p.y<0 || p.x>11|| p.y>11 || m.m[p.x][p.y].equals("M") || m.m[p.x][p.y].equals("H") || m.m[p.x][p.y].equals("B") || m.m[p.x][p.y].equals("b") ){
+            if(p.x<0 || p.y<0 || p.x>11|| p.y>11 || m.m[p.x][p.y].equals("M") || m.m[p.x][p.y].equals("H") || m.m[p.x][p.y].equals("L") || m.m[p.x][p.y].equals("B") || m.m[p.x][p.y].equals("b") ){
                 desplazamiento=desplazamiento*-1;
                 return true;
             }else if(m.m[p.x][p.y].equals("J")){

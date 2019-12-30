@@ -69,7 +69,7 @@ public class Bomba extends Elemento implements Runnable {
                     }else{                    
                         m.m[this.getPOS().x][this.getPOS().y]="b";
                     }
-                    m.actualizar();
+                    //m.actualizar();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Bomba.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -101,7 +101,7 @@ public class Bomba extends Elemento implements Runnable {
                 m.m[this.getPOS().x+1][this.getPOS().y]="F";
             }
             m.m[this.getPOS().x][this.getPOS().y]="F";
-            m.actualizar();
+            //m.actualizar();
             Thread.sleep(600);
         } catch (InterruptedException ex) {
             Logger.getLogger(Bomba.class.getName()).log(Level.SEVERE, null, ex);

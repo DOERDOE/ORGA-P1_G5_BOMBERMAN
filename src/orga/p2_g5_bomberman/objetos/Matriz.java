@@ -43,16 +43,19 @@ public class Matriz {
         Controlador c = new Controlador(this);
         t = new TableroCaracteres(this,c);
         configuaracionEnemigosNivel1();
-        this.actualizar(j);
+        Refresher r = new Refresher(this);
+        Thread hiloRefresher = new Thread(r);
+        hiloRefresher.start();
         
     }
     
     public void actualizar(Jugador j){
         m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
-        t.actualizar(this);
+    //    t.actualizar(this);
     };
     //para las bombas
     public void actualizar(){        
+        m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
         t.actualizar(this);  
         
     }
@@ -114,13 +117,13 @@ public class Matriz {
         if(m[p.x][p.y]==null){
             return;
         }
-        this.actualizar(j);
+       // this.actualizar(j);
     }
     //true es dejar pasar, false no dejar pasar
     public boolean alteracion(Point p){
         if(m[p.x][p.y]=="Z"){
             j.setBombasEspeciales(j.getBombasEspeciales()+3);
-            this.actualizar(j);
+           // this.actualizar(j);
             return true;
         }else if(m[p.x][p.y]=="L"){
             m[j.getPOS().x][j.getPOS().y]="O";
@@ -128,7 +131,7 @@ public class Matriz {
             j.setPOS(new Point(1,1));
             m[1][1]="J";
             cambioDeNivel();
-            this.actualizar(j);
+            //this.actualizar(j);
             return false;
         }else if(m[p.x][p.y]=="M"){
             m[j.getPOS().x][j.getPOS().y]=VACIO;
@@ -169,7 +172,7 @@ public class Matriz {
             this.hiloEnemigo8.stop();
             m[5][5]="Felicidades~!, SOS LA MERA VERGA!";
         }
-        this.actualizar(j);
+       // this.actualizar(j);
     };
     public void frenarHilos(){
         
@@ -201,7 +204,7 @@ public class Matriz {
         enemigos[1]=new Enemigo(this,new Point(5,2),false,2);
         m[7][7]=enemigos[0].getLetra();
         m[5][2]=enemigos[1].getLetra();
-        this.actualizar();
+        //this.actualizar();
         hiloEnemigo1 = new Thread(this.enemigos[0]);
         hiloEnemigo2 = new Thread(this.enemigos[1]);
         hiloEnemigo1.start();
@@ -239,7 +242,7 @@ public class Matriz {
         m[5][2]=enemigos[1].getLetra();
         m[7][9]=enemigos[2].getLetra();
         m[10][10]=enemigos[3].getLetra();
-        this.actualizar();
+        //this.actualizar();
         hiloEnemigo1 = new Thread(this.enemigos[0]);
         hiloEnemigo2 = new Thread(this.enemigos[1]);
         hiloEnemigo3 = new Thread(this.enemigos[2]);
@@ -289,7 +292,7 @@ public class Matriz {
         m[4][4]=enemigos[5].getLetra();
         m[6][4]=enemigos[6].getLetra();
         m[11][10]=enemigos[7].getLetra();
-        this.actualizar();
+        //this.actualizar();
         hiloEnemigo1 = new Thread(this.enemigos[0]);
         hiloEnemigo2 = new Thread(this.enemigos[1]);
         hiloEnemigo3 = new Thread(this.enemigos[2]);

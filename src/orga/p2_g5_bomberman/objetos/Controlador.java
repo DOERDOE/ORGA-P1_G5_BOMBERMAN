@@ -123,7 +123,7 @@ public class Controlador implements KeyListener{
                 }                
             }
         }
-        m.actualizar();
+        //m.actualizar();
         //actualizar matriz
     }
     

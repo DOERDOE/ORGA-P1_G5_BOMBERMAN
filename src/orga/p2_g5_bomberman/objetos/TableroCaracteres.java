@@ -5,6 +5,12 @@
  */
 package orga.p2_g5_bomberman.objetos;
 
+import java.awt.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import jnpout32.pPort;
 /**
  *
  * @author david
@@ -14,30 +20,227 @@ public class TableroCaracteres extends javax.swing.JFrame  {
     /**
      * Creates new form TableroCaracteres
      */
+    short pin2 = 2;
+    short pin3 = 3;
+    short cero = 0;
+    short uno = 1;
+    pPort puerto = new pPort();        
+    Runnable actualizarMatrizLed;
+    Runnable actualizarLetras;
+    Runnable actualizarGraficos;
+    ImageIcon player = new ImageIcon("player.png");
+        ImageIcon bloq = new ImageIcon("Bloque.png");
+        ImageIcon suelo = new ImageIcon("suelo.jpg");
+
+        ImageIcon bom = new ImageIcon("bom1.jpg");
+        ImageIcon bom_big = new ImageIcon("bom2.png");
+      
+        ImageIcon fire_ex = new ImageIcon("fire2.jpg");
+        ImageIcon fire_ran = new ImageIcon("fire1.jpg");
+        ImageIcon mal = new ImageIcon("malito.png");
+        ImageIcon mal2 = new ImageIcon("malito2.png");
+        
+        ImageIcon win = new ImageIcon("win.png");
+        
+        ImageIcon bon = new ImageIcon("z_bon.png");
+        
     public TableroCaracteres(Matriz m,Controlador c) {
         initComponents();
         this.txtMatriz.addKeyListener(c);
         actualizar(m); 
-        this.setVisible(true);
-    }
-    public void actualizar(Matriz m){
-        this.lblTitulo.setText("Nivel "+m.nivel);
-        this.lblNombre.setText(m.j.getNombre());
-        this.lblBombasEspeciales.setText(m.j.getBombasEspeciales()+"");
-        this.lblPuntuacion.setText(m.j.getPunteo()+"");
-        this.lblVidas.setText(m.j.getVidas()+"");
-        this.txtMatriz.setText("");
-        for(int y=0;y<12;y++){
-            for(int x=0;x<12;x++){
-                if(m.m[x][y]!=null){
-                    this.txtMatriz.setText(this.txtMatriz.getText()+m.m[x][y].toString());
-                }else{
-                    this.txtMatriz.setText(this.txtMatriz.getText()+"O");                
+        //actualizarDatos(m);
+            actualizarLetras = new Runnable() {
+            public void run() {
+                while(true){                    
+                    try {
+                        txtMatriz.setText("");
+                        for(int y=0;y<12;y++){
+                            for(int x=0;x<12;x++){
+                                if(m.m[y][x]!=null){
+                                    txtMatriz.setText(txtMatriz.getText()+m.m[x][y].toString());
+                                }else{
+                                    txtMatriz.setText(txtMatriz.getText()+"O");
+                                }
+                            }
+                            txtMatriz.setText(txtMatriz.getText()+"\n");
+                        }
+                        Thread.sleep(250);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+                }
+        };
+        actualizarMatrizLed = new Runnable() {
+            public void run() {
+                while(true){
+                    for(int y=1;y<13;y++){
+                        for(int x=0;x<12;x++){
+                            if(y==12){
+                                 if(m.m[0][x]!=null){
+                                            try {
+                                         if(m.m[0][x].equals("O")){
+                                                puerto.setPin(pin2, cero);
+                                            }else{
+                                                puerto.setPin(pin2, uno);
+                                            }
+
+                                        puerto.setPin(pin3, uno);
+                                        puerto.setPin(pin3, cero);
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }else{
+                                    puerto.setPin(pin2, cero);
+                                    puerto.setPin(pin3, uno);
+                                    puerto.setPin(pin3, cero);
+                                }
+                            }else{
+                                if(m.m[y][x]!=null){
+                                            try {
+                                         if(m.m[y][x].equals("O")){
+                                                puerto.setPin(pin2, cero);
+                                            }else{
+                                                puerto.setPin(pin2, uno);
+                                            }
+
+                                        puerto.setPin(pin3, uno);
+                                        puerto.setPin(pin3, cero);
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }else{
+                                    puerto.setPin(pin2, cero);
+                                    puerto.setPin(pin3, uno);
+                                    puerto.setPin(pin3, cero);
+                                }
+
+                            }
+
+                        }
+                    }
                 }
             }
-            this.txtMatriz.setText(this.txtMatriz.getText()+"\n");
+        };
+        actualizarGraficos = new Runnable() {
+            public void run() {
+                while(true){
+                    try {
+                        boolean tipo_mal = false;
+                        Jp_game.removeAll();
+                        //Jp_game = panel2;
+//        jt_game.setDefaultRenderer(Object.class, new ImagenTable());
+//        DefaultTableModel carpetas = new DefaultTableModel();
+
+for(int y=0;y<12;y++){
+    for(int x=0;x<12;x++){
+        if(m.m[x][y]!=null){
+            
+            if (m.m[x][y] == "H"){
+                JLabel lab_bloq = new JLabel();
+                lab_bloq.setIcon(new ImageIcon(bloq.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_bloq);
+                
+            }
+            else if (m.m[x][y] == "O"){
+                JLabel lab_suelo = new JLabel();
+                //lab_suelo1 = lab_suelo;
+                lab_suelo.setIcon(new ImageIcon(suelo.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_suelo);
+            }
+            else if (m.m[x][y] == "J"){
+                JLabel lab_pla = new JLabel();
+                lab_pla.setIcon(new ImageIcon(player.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_pla);
+            }
+            else if (m.m[x][y] == "B"){
+                JLabel lab_bom = new JLabel();
+                lab_bom.setIcon(new ImageIcon(bom.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_bom);
+            }
+            else if (m.m[x][y] == "b"){
+                JLabel lab_bom = new JLabel();
+                lab_bom.setIcon(new ImageIcon(bom_big.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_bom);
+            }
+            else if (m.m[x][y] == "F"){
+                JLabel lab_pla = new JLabel();
+                lab_pla.setIcon(new ImageIcon(fire_ex.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_pla);
+            }
+            else if (m.m[x][y] == "f"){
+                JLabel lab_pla = new JLabel();
+                lab_pla.setIcon(new ImageIcon(fire_ran.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_pla);
+            }
+            else if (m.m[x][y] == "M"){
+                JLabel lab_malito = new JLabel();
+                if (tipo_mal == false) {
+                    lab_malito.setIcon(new ImageIcon(mal.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                    tipo_mal = true;
+                }
+                else
+                {
+                    lab_malito.setIcon(new ImageIcon(mal2.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                    tipo_mal = false;
+                }
+                
+                Jp_game.add(lab_malito);
+            }
+            
+            else if (m.m[x][y] == "L"){
+                JLabel lab_win = new JLabel();
+                lab_win.setIcon(new ImageIcon(win.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_win);
+            }
+            else if (m.m[x][y] == "Z"){
+                JLabel lab_bon = new JLabel();
+                lab_bon.setIcon(new ImageIcon(bon.getImage().getScaledInstance(5, 5, Image.SCALE_FAST ) ));
+                Jp_game.add(lab_bon);
+            }
+            
+            
+        }else{
+            
         }
+    }
+}
+//JOptionPane.showMessageDialog(null,"fin1");
+scp.setViewportView(Jp_game);
+Jp_game.repaint();
+Thread.sleep(250);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        new Thread(actualizarLetras).start();
+        new Thread(actualizarMatrizLed).start();
+        new Thread(actualizarGraficos).start();
+        this.setVisible(true);
+    }
+    public void actualizarDatos(Matriz m){
+       this.lblTitulo.setText("Nivel "+m.nivel);
+       this.lblNombre.setText(m.j.getNombre());
+       this.lblBombasEspeciales.setText(m.j.getBombasEspeciales()+"");
+       this.lblPuntuacion.setText(m.j.getPunteo()+"");
+       this.lblVidas.setText(m.j.getVidas()+"");        
+    }
+    public void actualizarLetras(Matriz m){
+    }
+    public void actualizarMatrizLed(Matriz m){
+    }
+    public void actualizar(Matriz m){
+        actualizarLetras(m);
+        actualizarMatrizLed(m);
+        actualizarGraficos(m);
         
+    }
+    
+     public void actualizarGraficos(Matriz m) {
+        
+                
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -54,6 +257,8 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         lblBombasEspeciales = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblPuntuacion = new javax.swing.JLabel();
+        scp = new javax.swing.JScrollPane();
+        Jp_game = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +285,9 @@ public class TableroCaracteres extends javax.swing.JFrame  {
 
         lblPuntuacion.setText("jLabel9");
 
+        Jp_game.setLayout(new java.awt.GridLayout(12, 12));
+        scp.setViewportView(Jp_game);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,28 +295,31 @@ public class TableroCaracteres extends javax.swing.JFrame  {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(53, 53, 53)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPuntuacion)
-                            .addComponent(lblBombasEspeciales)
-                            .addComponent(lblVidas)
-                            .addComponent(lblNombre)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(169, 169, 169)
-                        .addComponent(lblTitulo)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addComponent(lblTitulo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scp, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel5))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(53, 53, 53)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPuntuacion)
+                                    .addComponent(lblBombasEspeciales)
+                                    .addComponent(lblVidas)
+                                    .addComponent(lblNombre))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,17 +345,21 @@ public class TableroCaracteres extends javax.swing.JFrame  {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPuntuacion)
                             .addComponent(jLabel8))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scp, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Jp_game;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -155,6 +370,7 @@ public class TableroCaracteres extends javax.swing.JFrame  {
     private javax.swing.JLabel lblPuntuacion;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblVidas;
+    private javax.swing.JScrollPane scp;
     private javax.swing.JTextArea txtMatriz;
     // End of variables declaration//GEN-END:variables
 }

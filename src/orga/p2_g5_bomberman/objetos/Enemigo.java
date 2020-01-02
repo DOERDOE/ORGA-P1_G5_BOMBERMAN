@@ -66,14 +66,17 @@ public class Enemigo extends Elemento implements Runnable{
         
     }
     public boolean verificarAfeccion(Point p){
-        if(!m.m[p.x][p.y].equals("O")){
-            if(p.x<0 || p.y<0 || p.x>11|| p.y>11 || m.m[p.x][p.y].equals("M") || m.m[p.x][p.y].equals("H") || m.m[p.x][p.y].equals("L") || m.m[p.x][p.y].equals("B") || m.m[p.x][p.y].equals("b") ){
+//        if(!m.m[p.x][p.y].equals("O")){
+            if(p.x<0 || p.y<0 || (p.x>11) || (p.y>11) || m.m[p.x][p.y].equals("M") || m.m[p.x][p.y].equals("H") || m.m[p.x][p.y].equals("L") || m.m[p.x][p.y].equals("B") || m.m[p.x][p.y].equals("b") ){
                 desplazamiento=desplazamiento*-1;
                 return true;
             }else if(m.m[p.x][p.y].equals("J")){
-                m.muerte();
+                m.j.setPOS(new Point(1,1));
+                m.m[1][1]="J";
+                m.j.setVidas(m.j.getVidas()-1);
+                m.m[p.x][p.y]="O";
             }
-        }
+  //      }
         return false;
     }
 

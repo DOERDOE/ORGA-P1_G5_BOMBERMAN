@@ -18,7 +18,7 @@ public class ORGAP2_G5_Bomberman {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new Matriz();
+        Interfaz i = new Interfaz();
     }
     
 }

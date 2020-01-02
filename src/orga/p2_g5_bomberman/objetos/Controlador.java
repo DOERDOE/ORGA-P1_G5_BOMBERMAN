@@ -111,28 +111,20 @@ public class Controlador implements KeyListener{
             }
             if(m.b==null){
                 m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
-                m.actualizar();
+                //m.actualizar();
                 m.hiloBomba = new Thread(m.b);
                 m.hiloBomba.start();                
             }else{
                 if(!m.b.isCargando()){
                     m.b=new Bomba(m,new Point(x,y),j.getBombasEspeciales()>0);
-                    m.actualizar();
+                    //m.actualizar();
                     m.hiloBomba = new Thread(m.b);
                     m.hiloBomba.start();                
                 }                
             }
         }
-        if(ke.getKeyCode()==82){
-            m.nivel = 1;
-            m.m = new String[12][12];
-            m.bloques = new Bloque[12][12];
-            m.enemigos = new Enemigo[8];
-            m.j = new Jugador("Pompilio",3,0,0);
-            m.llenadoAutomaticoDeO();
-            m.configuracionBloquesNivel1();
-            m.configuaracionEnemigosNivel1();
-         }
+        m.t.actualizarDatos(m);
+
         //m.actualizar();
         //actualizar matriz
     }

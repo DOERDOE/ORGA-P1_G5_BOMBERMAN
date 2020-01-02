@@ -75,16 +75,16 @@ public class Bomba extends Elemento implements Runnable {
                 }
             }
             if(especial){
-                if(this.getPOS().y!=0){
+                if(!((this.getPOS().y-2)<0)){
                     m.m[this.getPOS().x][this.getPOS().y-2]="F";
                 }
-                if(this.getPOS().y!=11){
+                if(!((this.getPOS().y+2)>11)){
                     m.m[this.getPOS().x][this.getPOS().y+2]="F";
                 }
-                if(this.getPOS().x!=0){
+                if(!((this.getPOS().x-2)<0)){
                     m.m[this.getPOS().x-2][this.getPOS().y]="F";
                 }
-                if(this.getPOS().x!=11){
+                if(!((this.getPOS().x+2)>11)){
                     m.m[this.getPOS().x+2][this.getPOS().y]="F";
                 }                
             }
@@ -119,16 +119,16 @@ public class Bomba extends Elemento implements Runnable {
                 m.m[this.getPOS().x+1][this.getPOS().y]="O";
             }
             if(especial){
-                if(this.getPOS().y!=0){
+                if(!((this.getPOS().y-2)<0)){
                     m.m[this.getPOS().x][this.getPOS().y-2]="O";
                 }
-                if(this.getPOS().y!=11){
+                if(!((this.getPOS().y+2)>11)){
                     m.m[this.getPOS().x][this.getPOS().y+2]="O";
                 }
-                if(this.getPOS().x!=0){
+                if(!((this.getPOS().x-2)<0)){
                     m.m[this.getPOS().x-2][this.getPOS().y]="O";
                 }
-                if(this.getPOS().x!=11){
+                if(!((this.getPOS().x+2)>11)){
                     m.m[this.getPOS().x+2][this.getPOS().y]="O";
                 }                
             }

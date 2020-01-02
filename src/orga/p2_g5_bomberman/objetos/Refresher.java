@@ -22,8 +22,7 @@ public class Refresher implements Runnable{
         while(true){
             try {
                 m.actualizar();
-                Thread.sleep(200);
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Refresher.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

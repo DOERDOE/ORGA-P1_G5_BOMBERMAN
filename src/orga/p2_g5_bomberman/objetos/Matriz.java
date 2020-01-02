@@ -43,19 +43,33 @@ public class Matriz {
         Controlador c = new Controlador(this);
         t = new TableroCaracteres(this,c);
         configuaracionEnemigosNivel1();
-        Refresher r = new Refresher(this);
-        Thread hiloRefresher = new Thread(r);
-        hiloRefresher.start();
+        //Refresher r = new Refresher(this);
+//        Thread hiloRefresher = new Thread(r);
+        //hiloRefresher.start();
         
     }
     
+    public Matriz(String m){
+        nivel = 1;
+        this.m = new String[12][12];
+        this.bloques = new Bloque[12][12];
+        this.enemigos = new Enemigo[8];
+        this.j = new Jugador("Noob",3,0,0);
+        llenadoAutomaticoDeO();
+        configuracionBloquesPractica(m);
+        Controlador c = new Controlador(this);
+        t = new TableroCaracteres(this,c);
+        Refresher r = new Refresher(this);
+        Thread hiloRefresher = new Thread(r);
+        hiloRefresher.start();        
+    }
     public void actualizar(Jugador j){
         m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
     //    t.actualizar(this);
     };
     //para las bombas
     public void actualizar(){        
-        m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
+       // m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
         t.actualizar(this);  
         
     }
@@ -83,7 +97,10 @@ public class Matriz {
             return;
         }
         if(j.getPOS().x==p.x && j.getPOS().y==p.y){
-            muerte();
+            j.setPOS(new Point(1,1));
+            m[1][1]="J";
+            this.j.setVidas(j.getVidas()-1);
+            m[p.x][p.y]=VACIO;
         }       
         //verificamos si lo que destruimos es un enemigo
         for(int i=0;i<8;i++){
@@ -131,22 +148,16 @@ public class Matriz {
             //this.actualizar(j);
             return false;
         }else if(m[p.x][p.y]=="M"){
-            muerte();
+            m[j.getPOS().x][j.getPOS().y]=VACIO;
+            j.setPOS(new Point(1,1));
+            m[1][1]="J";
+            this.j.setVidas(j.getVidas()-1);
             return false;
         }else if(m[p.x][p.y]=="O"){
             return true;
         }else{
             return false;
         }
-    }
-    public void muerte(){
-        this.j.setVidas(j.getVidas()-1);
-        if(j.getVidas()==0){
-            m[11][11]="GAME OVER papu...\nPresiona R para reiniciar";
-        }
-        m[j.getPOS().x][j.getPOS().y]=VACIO;
-        j.setPOS(new Point(1,1));
-        m[1][1]="J";
     }
     public void cambioDeNivel(){
         if(nivel==2){
@@ -313,4 +324,12 @@ public class Matriz {
         hiloEnemigo7.start();
         hiloEnemigo8.start();
     }
+
+    private void configuracionBloquesPractica(String m) {
+        //crear bloqus
+        for(char c : m.toCharArray()){
+            System.out.println("->>"+c);
+        }
+    }
+
 }

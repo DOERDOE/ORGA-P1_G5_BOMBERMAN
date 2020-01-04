@@ -27,6 +27,13 @@ public class Jugador extends Elemento{
         this.punteo=punteo;
         this.bombasEspeciales=bombasEspeciales;
     }
+    public Jugador(String nombre, int vidas, int punteo,int bombasEspeciales, Point p){
+        super(p,"J");
+        this.nombre=nombre;
+        this.vidas=vidas;
+        this.punteo=punteo;
+        this.bombasEspeciales=bombasEspeciales;
+    }
 
     public String getNombre() {
         return nombre;

@@ -19,13 +19,13 @@ public class Refresher implements Runnable{
     }
     @Override
     public void run() {
-        while(true){
-            try {
-                m.actualizar();
-            } catch (Exception ex) {
-                Logger.getLogger(Refresher.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        while(true){
+//            try {
+//                m.actualizar();
+//            } catch (Exception ex) {
+//                Logger.getLogger(Refresher.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
     
 }

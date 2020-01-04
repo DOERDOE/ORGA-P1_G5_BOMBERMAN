@@ -24,10 +24,12 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * Creates new form Interfaz
      */
+    Thread n;
     public Interfaz() {
         initComponents();
         this.setVisible(true);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,31 +121,202 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new Matriz();
+        //n.start();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        short pin2 = 2;
-        short pin3 = 3;
-        short cero = 0;
-        short uno = 1;
-        pPort puerto = new pPort();
-     
-                int cont = 12;
-                short var = 1;
+Runnable yu = new Runnable() {
+        String x = "";
+            long valorTiempoEspera = 450;
+            short valor;
+            short direccion = 0x378;
+            String decision="";
+        @Override
+            public void run() {
+                //lpt = new pPort();
+                short relojControl = 7;
+                short cero = 0;
+                short uno = 1;
+                short datum = 0;
+                short Addr =889;
+                pPort puerto2 = new pPort();
+
                 while(true){
-                    try {                   
-                        puerto.setPin(pin2, uno);
-                      //  puerto.setPin(pin2, cero);
-                        puerto.setPin(pin3, uno);
-                      //  Thread.sleep(50);
-                        puerto.setPin(pin3, cero);   
-                      //  Thread.sleep(50);
-                    } catch (Exception ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    datum = (short) puerto2.input(Addr);
+                    if(datum==255){
+                    try {
+                        puerto2.setPin(relojControl, cero);
+                        Thread.sleep(30);
+                        //empezamos a contar
+                        decision="";                        
+                     //   datum = (short) lpt.input(Addr);
+                        //quito los 1 que pueden venir seguidos 
+                        //que forman parte de la bandera de inicio
+                        while(datum==255){
+                            puerto2.setPin(relojControl, uno);
+                            Thread.sleep(valorTiempoEspera);
+                            puerto2.setPin(relojControl, cero);
+                            Thread.sleep(valorTiempoEspera);
+                            datum = (short) puerto2.input(Addr);                            
+                        }
+                        do{
+                            decision+="0";
+                            puerto2.setPin(relojControl, uno);
+                            Thread.sleep(valorTiempoEspera);
+                            puerto2.setPin(relojControl, cero);
+                            Thread.sleep(valorTiempoEspera);
+                            System.out.println("Ciclo");
+                            datum = (short) puerto2.input(Addr);
+                        }while(datum!=255);
+                            } catch (Exception ex) {
+                               // Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        System.out.println("Decision: "+decision);
+                        //decidir que se va a hacer
+                        if(decision.equals("00000")){
+                            System.out.println("Arriba");
+                        }else if(decision.equals("0000")){
+                            System.out.println("Abajo");                            
+                        }else if(decision.equals("00")){
+                            System.out.println("Izquierda");                            
+                        }else if(decision.equals("000")){
+                            System.out.println("Derecha");                            
+                        }else if(decision.equals("0")){
+                            System.out.println("Bomba");                            
+                        }else{
+                            System.out.println("y aqui hubiera puesto mi pausa si tuviera una :'v");
+                        }
+                        //pulso de reloj hasta que vuelva a ser 0
+                        while(datum!=247){
+                        try {
+                            System.out.println("Regreso a normalidad");
+                            puerto2.setPin(relojControl, uno);
+                            Thread.sleep(valorTiempoEspera);
+                            puerto2.setPin(relojControl, cero);
+                            Thread.sleep(valorTiempoEspera);
+                            datum = (short) puerto2.input(Addr);                            
+                        } catch (Exception ex) {
+                            //Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        }                        
                     }
-        
+                        try {
+                            puerto2.setPin(relojControl, uno);
+                            Thread.sleep(valorTiempoEspera);
+                            puerto2.setPin(relojControl, cero);
+                            Thread.sleep(valorTiempoEspera);
+                        } catch (Exception ex) {
+                            System.out.println("Error?");
+                        }
+                    
+                    
+                    
+                    try {
+                      //      System.out.println("Read Port: " + (8) +
+                     //     " = " + datum);                
+                    } catch (Exception ex) {
+                        System.out.println("Error 2");
+                    }
                 }
-        
+            }
+        };
+        Thread x2 = new Thread(yu);
+        x2.start();
+
+//        Runnable r = new Runnable(){
+//            public void run(){
+//            short pin2 = 4;
+//            short pin3 = 2;
+//            short cero = 0;
+//            short uno = 1;
+//            pPort puerto = new pPort();
+//            short relojControl = 7;
+//                    int cont = 12;
+//                    short var = 1;
+//                    int i = 0;
+//                    short datum;
+//                    short Addr=889;
+//                while(true){
+//                    for(int z=0;z<12;z++){                        
+//                        try {
+//                            for(int j=0;j<12;j++){                   
+//                                if(j%2==0){
+//                               //     puerto.setPin(pin2, uno);
+//                                    }else{
+//                                 //   puerto.setPin(pin2, cero);                                    
+//                                }
+//                                puerto.setPin(relojControl, uno);
+//                                Thread.sleep(750);
+//                                puerto.setPin(relojControl, cero);
+//                                Thread.sleep(750);
+//                            } 
+//                        } catch (Exception ex) {
+//                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                }
+//            };
+//
+////                    while(true){
+////                        try {                   
+////                            puerto.setPin(pin2, uno);
+////                          //  puerto.setPin(pin2, cero);
+////                            puerto.setPin(pin3, uno);
+////                            datum = (short) puerto.input(Addr);
+////                               // if(i!=datum){
+////                                    i=datum;
+////                                    System.out.println("Read Port: " + (Addr) +
+////                                  " = " + datum);                
+////                               // }
+////                            Thread.sleep(10);
+////                            puerto.setPin(pin3, cero);   
+////                            Thread.sleep(10);
+////                            datum = (short) puerto.input(Addr);
+////                                if(i!=datum){
+////                                    i=datum;
+////                                    System.out.println("Read Port: " + (Addr) +
+////                                  " = " + Integer.toHexString(datum));                
+////                                }
+////
+////                        } catch (Exception ex) {
+////                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+////                        }
+////
+////                    }
+////                }
+////        };
+////        short pin2 = 2;
+////        short pin3 = 3;
+////        short cero = 0;
+////        short uno = 1;
+////        Runnable r2 = new Runnable() {
+////        pPort lpt = new pPort();
+////        String x = "";
+////        short datum = 0;
+////        short Addr =888;
+////            short valor;
+////            pPort puerto = new pPort();
+////            short direccion = 0x378;
+////            public void run() {
+////                while(true){
+////                    int i =0;
+////                // Notify the console
+////                datum = (short) lpt.input(Addr);
+////                if(i!=datum){
+////                    i=datum;
+////                    System.out.println("Read Port: " + (Addr) +
+////                  " = " + Integer.toHexString(datum));                
+////                }                    
+////            }
+////                
+////            }
+////        };
+////        Thread x = new Thread(r2);
+//        //x.start();
+//    
+//        };    
+//        n=new Thread(r);
+//        n.start();
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

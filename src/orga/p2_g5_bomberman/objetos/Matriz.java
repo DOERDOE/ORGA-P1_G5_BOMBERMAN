@@ -38,6 +38,7 @@ public class Matriz {
         this.bloques = new Bloque[12][12];
         this.enemigos = new Enemigo[8];
         this.j = new Jugador("Pompilio",3,0,0);
+        this.m[j.getPOS().x][j.getPOS().y]="J";
         llenadoAutomaticoDeO();
         configuracionBloquesNivel1();
         Controlador c = new Controlador(this);
@@ -54,14 +55,14 @@ public class Matriz {
         this.m = new String[12][12];
         this.bloques = new Bloque[12][12];
         this.enemigos = new Enemigo[8];
-        this.j = new Jugador("Noob",3,0,0);
+       // this.j = new Jugador("Noob",3,0,0);
         llenadoAutomaticoDeO();
         configuracionBloquesPractica(m);
         Controlador c = new Controlador(this);
         t = new TableroCaracteres(this,c);
-        Refresher r = new Refresher(this);
-        Thread hiloRefresher = new Thread(r);
-        hiloRefresher.start();        
+       // Refresher r = new Refresher(this);
+        //Thread hiloRefresher = new Thread(r);
+        //hiloRefresher.start();        
     }
     public void actualizar(Jugador j){
         m[j.getPOS().x][j.getPOS().y] = j.getLetra();        
@@ -327,8 +328,31 @@ public class Matriz {
 
     private void configuracionBloquesPractica(String m) {
         //crear bloqus
-        for(char c : m.toCharArray()){
-            System.out.println("->>"+c);
+        m = m.replace("\n", "");
+        m = m.replace("\r", "");
+        for(int j=0;j<12;j++){
+            for(int i=0;i<12;i++){
+                String x = m.charAt(i+(j*12))+"";
+                
+                System.out.println("Analizando "+x);
+                if((m.charAt(i+(j*12))+"").equals("X")){
+                    this.m[i][j]="H";
+                    this.bloques[i][j]=new Bloque(new Point(i,j));
+                }else if((m.charAt(i+(j*12))+"").equals("L")){
+                    this.m[i][j]="H";
+                    this.bloques[i][j]=new Bloque(new Point(i,j));
+                    this.bloques[i][j].setOcultaLlave(true);
+                }else if((m.charAt(i+(j*12))+"").equals("B")){
+                    this.m[i][j]="H";
+                    this.bloques[i][j]=new Bloque(new Point(i,j));
+                    this.bloques[i][j].setOcultaBonus(true);
+                }else if((m.charAt(i+(j*12))+"").equals("J")){
+                    this.j = new Jugador("Prueba",3,0,0,new Point(i,j));
+                    this.m[i][j]="J";
+                }else{
+                    //this.m[i][j]="O";
+                }
+            }            
         }
     }
 

@@ -20,7 +20,7 @@ public class TableroCaracteres extends javax.swing.JFrame  {
     /**
      * Creates new form TableroCaracteres
      */
-    short pin2 = 2;
+    short pin2 = 4;
     short pin3 = 3;
     short cero = 0;
     short uno = 1;
@@ -43,8 +43,9 @@ public class TableroCaracteres extends javax.swing.JFrame  {
         ImageIcon win = new ImageIcon("win.png");
         
         ImageIcon bon = new ImageIcon("z_bon.png");
-        
+        Matriz m;
     public TableroCaracteres(Matriz m,Controlador c) {
+        this.m=m;
         initComponents();
         this.txtMatriz.addKeyListener(c);
         actualizar(m); 
@@ -65,59 +66,43 @@ public class TableroCaracteres extends javax.swing.JFrame  {
                             txtMatriz.setText(txtMatriz.getText()+"\n");
                         }
                         Thread.sleep(250);
-                    } catch (InterruptedException ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
                     }
             }
                 }
         };
+            TableroCaracteres that = this;
         actualizarMatrizLed = new Runnable() {
             public void run() {
                 while(true){
-                    for(int y=1;y<13;y++){
-                        for(int x=0;x<12;x++){
-                            if(y==12){
-                                 if(m.m[0][x]!=null){
-                                            try {
-                                         if(m.m[0][x].equals("O")){
-                                                puerto.setPin(pin2, cero);
-                                            }else{
-                                                puerto.setPin(pin2, uno);
-                                            }
-
-                                        puerto.setPin(pin3, uno);
-                                        puerto.setPin(pin3, cero);
-                                    } catch (Exception ex) {
-                                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }else{
-                                    puerto.setPin(pin2, cero);
-                                    puerto.setPin(pin3, uno);
-                                    puerto.setPin(pin3, cero);
-                                }
-                            }else{
-                                if(m.m[y][x]!=null){
-                                            try {
-                                         if(m.m[y][x].equals("O")){
-                                                puerto.setPin(pin2, cero);
-                                            }else{
-                                                puerto.setPin(pin2, uno);
-                                            }
-
-                                        puerto.setPin(pin3, uno);
-                                        puerto.setPin(pin3, cero);
-                                    } catch (Exception ex) {
-                                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }else{
-                                    puerto.setPin(pin2, cero);
-                                    puerto.setPin(pin3, uno);
-                                    puerto.setPin(pin3, cero);
-                                }
-
-                            }
-
-                        }
+                    try {
+                        that.iterarEnX(m,1);
+                       // Thread.sleep(5);
+                        that.iterarEnX(m,2);
+                       // Thread.sleep(5);
+                        that.iterarEnX(m,3);
+                       // Thread.sleep(5);
+                        that.iterarEnX(m,4);
+                       // Thread.sleep(5);
+                        that.iterarEnX(m,5);
+                       // Thread.sleep(5);
+                        that.iterarEnX(m,6);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,7);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,8);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,9);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,10);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,11);
+                        //Thread.sleep(5);
+                        that.iterarEnX(m,0);
+                        //Thread.sleep(5);
+                    } catch (Exception ex) {
+                        Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -217,8 +202,34 @@ Thread.sleep(250);
         };
         new Thread(actualizarLetras).start();
         new Thread(actualizarMatrizLed).start();
-        new Thread(actualizarGraficos).start();
+        //new Thread(actualizarGraficos).start();
         this.setVisible(true);
+    }
+    public void iterarEnX(Matriz m,int y){
+        stearDataPin2ClockPin3(((m.m[y][0].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][1].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][2].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][3].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][4].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][5].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][6].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][7].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][8].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][9].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][10].equals("O")) ? (short)0 : (short)1));
+        stearDataPin2ClockPin3(((m.m[y][11].equals("O")) ? (short)0 : (short)1));
+    }
+    public void stearDataPin2ClockPin3(short val){
+        try {
+            puerto.setPin(pin2, val);
+//            Thread.sleep(50);
+            puerto.setPin(pin3, uno);
+            //Thread.sleep((long)1/100000000);        
+            puerto.setPin(pin3, cero);
+            //Thread.sleep((long)0.0001);        
+        } catch (Exception ex) {
+            Logger.getLogger(TableroCaracteres.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void actualizarDatos(Matriz m){
        this.lblTitulo.setText("Nivel "+m.nivel);

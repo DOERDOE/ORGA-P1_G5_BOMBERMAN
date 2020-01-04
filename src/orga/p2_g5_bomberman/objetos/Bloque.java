@@ -14,7 +14,7 @@ import java.awt.Point;
 public class Bloque extends Elemento{
     private boolean ocultaBonus;
     private boolean ocultaLlave;
-    public Bloque(Point p){
+    public Bloque(Point p){ 
         super(p,"H");
         this.ocultaBonus=false;
         this.ocultaLlave=false;

@@ -8,7 +8,9 @@ package orga.p2_g5_bomberman.objetos;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jnpout32.*;
 /**
  *
  * @author david
@@ -18,14 +20,18 @@ public class Controlador implements KeyListener{
     Jugador j;
     Bloque[][] bloques;
     Point aux;
-    
+    //private ioPort puertoParalelo = new ioPort();
+   // static pPort lpt;
+     short datum = 0;
+Thread x2;
     public Controlador(Matriz m){
         this.m=m;
         this.j=m.j;
         this.bloques=m.bloques;
         this.aux = new Point(0,0);
+        //hilo controlador
+        
     }
-
     @Override
     public void keyTyped(KeyEvent ke) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
